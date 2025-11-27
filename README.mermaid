@@ -1,0 +1,40 @@
+classDiagram
+    class Cell {
+        - bool hasMine
+        - bool isRevealed
+        - bool isFlagged
+        - int  adjacentMines
+        + Cell()
+        + bool hasMine() const
+        + bool isRevealed() const
+        + bool isFlagged() const
+        + int  getAdjacentMines() const
+        + void reveal()
+        + void toggleFlag()
+    }
+
+    class Board {
+        - int rows
+        - int cols
+        - int mineCount
+        - std::vector<std::vector<Cell>> grid
+        + Board(int rows, int cols, int mines)
+        + bool isInside(int r, int c) const
+        + void placeMines()
+        + void calculateAdjacents()
+        + bool revealCell(int r, int c)
+        + void toggleFlag(int r, int c)
+        + bool allSafeRevealed() const
+        + void print(bool revealMines=false) const
+    }
+
+    class Game {
+        - std::unique_ptr<Board> board
+        - bool running
+        + Game(int rows, int cols, int mines)
+        + void run()
+        + void handleCommand(const std::string& cmd)
+    }
+
+    Game --> Board : owns (unique_ptr)
+    Board "1" --> "*" Cell : contains
